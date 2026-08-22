@@ -23,6 +23,7 @@ const POSLayout = () => {
       >
         <Sidebar />
       </Box>
+      
       <Box
         sx={{
           gridColumn: "2 / 4",
