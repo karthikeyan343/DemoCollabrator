@@ -2,7 +2,7 @@ import React from 'react'
 import { TextField, Box } from '@mui/material'
 import SearchBar from './SearchBar'
 import CategoryTab from './CategoryTab'
-import CardDetails from '../../data/CardDetails'
+import CardDetails from '../../../data/CardDetails'
 import Carde from './Carde'
 const Main = () => {
   return (

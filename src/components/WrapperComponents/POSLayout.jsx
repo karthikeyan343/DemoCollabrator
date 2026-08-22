@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 
-import Sidebar from "../SpecifiedComponents/Sidebar";
-import Header from "../SpecifiedComponents/Header";
-import Main from "../SpecifiedComponents/Main";
-import Cart from "../SpecifiedComponents/Cart";
+import Sidebar from "../SpecifiedComponents/Home/Sidebar";
+import Header from "../SpecifiedComponents/Home/Header";
+import Main from "../SpecifiedComponents/Home/Main";
+import Cart from "../SpecifiedComponents/Home/Cart";
 
 const POSLayout = () => {
   return (
