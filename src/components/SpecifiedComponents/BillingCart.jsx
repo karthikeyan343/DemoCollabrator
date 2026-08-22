@@ -11,22 +11,22 @@ const BillingCart = () => {
     {
       id:1,
       title:'Aavin Milk 500ml',
-      price:50,
-      PPU:25.00,
-      count:2
+      price:25,
+      PPU:25,
+      count:1
     },
     {
       id:2,
       title:'Aashirvad Aatta 5Kg',
       price:245,
-      PPU:245.00,
+      PPU:245,
       count:1
     },
     {
       id:3,
       title:'Nescafe classic 50g',
       price:160,
-      PPU:160.00,
+      PPU:160,
       count:1
     }
   ])
@@ -34,7 +34,7 @@ const BillingCart = () => {
   const handleRemove=(id)=>{
     setItems(
       Items.map((item)=>
-        item.id==id && item.count>1 ? {...item, count:item.count-1} : item
+        item.id == id && item.count>1 ? {...item, count : item.count-1, price:item.PPU * (item.count-1)} : item
       )
     );
   };
@@ -42,10 +42,10 @@ const BillingCart = () => {
   const handleInc=(id)=>{
      setItems(
       Items.map((item)=>
-        item.id == id ? {...item , count: item.count} : item
+        item.id == id ? {...item , count: item.count+1 , price:item.PPU * (item.count+1)} : item
       )
-     )
-  }
+     );
+  };
 
   const handleDelete = (id)=>{
     setItems(
@@ -65,6 +65,7 @@ const BillingCart = () => {
       Items.map((items)=>{
          return(
           <Box
+          key={items.id}
         sx={{
           border: '1px solid #d5dbe5',
           borderRadius: 2,
