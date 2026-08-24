@@ -1,13 +1,20 @@
-import React from 'react'
-import { TextField, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import SearchBar from './SearchBar'
 import CategoryTab from './CategoryTab'
 import CardDetails from '../../../data/CardDetails'
 import Carde from './Carde'
+import { useState } from 'react'
 const Main = () => {
+ 
+   const [search, setSearch] = useState('');
+
+   const filteredSearch = CardDetails.filter((card)=>
+    card.title.toLowerCase().includes(search.toLowerCase())
+   )
+
   return (
     <>
-     <SearchBar/>
+     <SearchBar search={search} setSearch={setSearch}/>
      <CategoryTab/>
      <Box
      sx={{
@@ -17,7 +24,7 @@ const Main = () => {
       mt:2
      }}>
      {
-      CardDetails.map((carde)=> <Carde key={carde.id} carde={carde}/>)
+      filteredSearch.map((carde)=> <Carde key={carde.id} carde={carde}/>)
      }
     </Box>
     </>
