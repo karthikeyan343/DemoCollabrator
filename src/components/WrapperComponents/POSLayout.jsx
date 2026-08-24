@@ -5,7 +5,9 @@ import Header from "../SpecifiedComponents/Home/Header";
 import Main from "../SpecifiedComponents/Home/Main";
 import Cart from "../SpecifiedComponents/Home/Cart";
 
+
 const POSLayout = () => {
+  
   return (
     <Box
       sx={{

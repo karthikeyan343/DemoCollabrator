@@ -1,7 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from '@mui/material/TextField';
-const SearchBar = () => {
+const SearchBar = ({search, setSearch}) => {
+ 
   return (
     <Box
       sx={{
@@ -16,7 +17,9 @@ const SearchBar = () => {
     >
       <SearchIcon fontSize="small" />
        
-       <TextField id="outlined-basic" label="Search" sx={{width:'100%'}} />
+       <TextField id="outlined-basic" value={search} label="Search" sx={{width:'100%'}}
+        onChange={(e)=>setSearch(e.target.value)}
+       />
    
     </Box>
   );
