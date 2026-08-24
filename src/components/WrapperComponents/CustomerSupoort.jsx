@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Drawer, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import "../../components/WrapperComponents/Customer.css";
+import "../../../src/Customer.css";
 
 import Sidebar from "../SpecifiedComponents/CustomerDirectory/CustomerSidebar";
 import Header from "../SpecifiedComponents/CustomerDirectory/CustomerHeader";
