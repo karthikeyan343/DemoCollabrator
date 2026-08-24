@@ -15,6 +15,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
+import logo from "../../../assets/PothysLogo.webp";
 
 const Sidebar = () => {
   return (
@@ -33,17 +34,17 @@ const Sidebar = () => {
     height: "58px",
     display: "flex",
     alignItems: "center",
-    p: 1.3,
+    p: 1.2,
     borderBottom: "1px solid #e0e0e0",
   }}
 >
   <Box
     component="img"
-    src=""
+    src= {logo}
     alt="logo"
     sx={{
-      width: "30px",
-      height: "33px",
+      width: "38px",
+      height: "38px",
       objectFit: "contain",
     }}
   />
@@ -137,7 +138,7 @@ const Sidebar = () => {
             mt:35
           }}
         >
-          <ListItemButton>
+          <ListItemButton sx={{mt:2}}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>

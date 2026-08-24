@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,6 +17,7 @@ const Carde = ({ carde }) => {
           position: 'relative',
           height: 105,
           backgroundColor: '#f5f5f5',
+          overflow:'hidden',
         }}
       >
         <CardMedia
@@ -25,10 +25,10 @@ const Carde = ({ carde }) => {
           image={carde.img}
           alt={carde.title}
           sx={{
-            width: '80%',
-            height: '80%',
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
-            p: 1,
+            p: 0,
           }}
         />
         <Box
