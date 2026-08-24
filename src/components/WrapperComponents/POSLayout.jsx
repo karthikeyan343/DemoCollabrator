@@ -50,6 +50,10 @@ const POSLayout = () => {
         <Cart/>
       </Box>
     </Box>
+
+    
+
+
   );
 };
 
