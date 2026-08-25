@@ -4,10 +4,9 @@ import POS from './Pages/POS'
 
 function App() {
   
-
   return (
     <>
-    <POS/>
+      <POS/>
     </>
   )
 }

@@ -15,7 +15,12 @@ const CustomerDropdown = ({setDiscount}) => {
       value:'Registered Cutomer',
       label:'Registered Cutomer',
       discount:100
-     }
+     },
+     {
+      value:'None',
+      label:'None',
+      discount:0
+     },
   ]
 
   const handleChange = (event)=>{

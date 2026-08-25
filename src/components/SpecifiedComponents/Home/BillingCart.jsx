@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-
+import PauseIcon from '@mui/icons-material/Pause';
+import PrintIcon from '@mui/icons-material/Print';
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -65,8 +66,48 @@ const BillingCart = ({discount}) => {
   const subtotal = Items.reduce((sum, item) => sum + item.price, 0);
 
   const totalQuantity = Items.reduce((total, item) => total + item.count, 0);
+  const appliedDiscount = Items.length == 0?0 : discount;
+  const Total = subtotal - appliedDiscount;
 
-  const Total = subtotal - discount;
+  const handleHoldBill = () => {
+
+    if (Items.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
+
+    const heldBill = {
+      id: Date.now(),
+      items: Items,
+      subtotal: subtotal,
+      discount: discount,
+      total: Total,
+      totalQuantity: totalQuantity,
+      date: new Date().toLocaleString(),
+    };
+    const oldBills =
+      JSON.parse(localStorage.getItem("heldBills")) || [];
+    localStorage.setItem(
+      "heldBills",
+      JSON.stringify([
+        ...oldBills,
+        heldBill
+      ])
+    );
+    setItems([]);
+    alert("Bill held successfully");
+  };
+
+  const handlePrint = () => {
+
+    if (Items.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
+
+    window.print();
+  };
+
 
   return (
     <Box
@@ -152,6 +193,7 @@ const BillingCart = ({discount}) => {
         sx={{
           border: "1px solid grey",
           mt: 2,
+          backgroundColor: "#f5f6f8",
         }}
       >
         <Box
@@ -196,42 +238,49 @@ const BillingCart = ({discount}) => {
             </Typography>
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              mt: 1,
-            }}
-          >
-            <Box
-              sx={{
-                height: "20px",
-                width: "150px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 2,
-                mt: 1,
-              }}
-            >
-              <Button variant="outlined">Hold Bill</Button>
-            </Box>
-            <Box
-              sx={{
-                height: "20px",
-                width: "80px",
-                mr: 3,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 2,
-                mt: 1,
-              }}
-            >
-              <Button variant="outlined">Print</Button>
-            </Box>
-          </Box>
+<Box
+  sx={{
+    display: "flex",
+    gap: 2,
+    width: "98%",
+    mt: 2,
+  }}
+>
+  <Button
+    variant="outlined"
+    startIcon={<PauseIcon />}
+     onClick={handleHoldBill}
+    sx={{
+      flex: 1,
+      height: 45,
+      textTransform: "none",
+      fontSize: "16px",
+      fontWeight: 600,
+      ml:1,
+      color: "black",
+      borderColor: "#ccc",
+    }}
+  >
+    Hold Bill
+  </Button>
+
+  <Button
+    variant="outlined"
+    startIcon={<PrintIcon />}
+    onClick={handlePrint}
+    sx={{
+      flex: 1,
+      height: 45,
+      textTransform: "none",
+      fontSize: "16px",
+      fontWeight: 600,
+      color: "black",
+      borderColor: "#ccc",
+    }}
+  >
+    Print
+  </Button>
+</Box>
           <Button variant="contained" sx={{ m: 3, borderRadius: 2 }}>
             Proceed to Payment ₹{Total.toFixed(2)}
           </Button>
