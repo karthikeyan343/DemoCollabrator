@@ -8,7 +8,8 @@ const CustomerDetails = [
     email: "jane.doe@example.com",
     loyaltyPoints: 4250,
     lastVisit: "Today, 9:15 AM",
-    totalSpend: 1245.0,
+    lastVisitDate: new Date().toISOString(),
+    totalSpend: 1245,
     selected: true,
   },
   {
@@ -20,22 +21,22 @@ const CustomerDetails = [
     email: "michael.smith@example.com",
     loyaltyPoints: 120,
     lastVisit: "Oct 12, 2023",
+    lastVisitDate: "2023-10-12T10:00:00",
     totalSpend: 85.5,
-    selected: false,
   },
   {
     id: 3,
-    initials: "EP",
+    initials: "ER",
     name: "Elena Rodriguez",
     type: "Standard",
     mobile: "+1 (555) 332-9099",
     email: "elena.rodriguez@example.com",
     loyaltyPoints: 840,
     lastVisit: "Sep 28, 2023",
-    totalSpend: 420.0,
-    selected: false,
+    lastVisitDate: "2023-09-28T10:00:00",
+    totalSpend: 420,
   },
-    {
+  {
     id: 4,
     initials: "MS",
     name: "Michael Smith",
@@ -44,8 +45,8 @@ const CustomerDetails = [
     email: "michael.smith@example.com",
     loyaltyPoints: 120,
     lastVisit: "Oct 12, 2023",
+    lastVisitDate: "2023-10-12T10:00:00",
     totalSpend: 85.5,
-    selected: false,
   },
 ];
 

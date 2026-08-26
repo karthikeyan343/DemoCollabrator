@@ -16,16 +16,23 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleIcon from "@mui/icons-material/People";
 
-const Sidebar = () => {
+const Sidebar = ({ darkMode }) => {
+  const backgroundColor = darkMode ? "#191c1d" : "#ffffff";
+  const primaryColor = darkMode ? "#ffffff" : "#0058be";
+  const secondaryColor = darkMode ? "#c2c6d6" : "#424754";
+  const iconColor = darkMode ? "#c2c6d6" : "#596174";
+  const borderColor = darkMode ? "#424754" : "#d7dbe5";
+
   return (
     <Box
       sx={{
         width: "190px",
         height: "100vh",
-        backgroundColor: "#ffffff",
-        borderRight: "1px solid #d7dbe5",
+        backgroundColor,
+        borderRight: `1px solid ${borderColor}`,
         display: "flex",
         flexDirection: "column",
+        transition: "background-color 0.2s ease",
       }}
     >
       <Box
@@ -35,7 +42,7 @@ const Sidebar = () => {
           display: "flex",
           alignItems: "center",
           gap: 1.2,
-          borderBottom: "1px solid #e0e3e8",
+          borderBottom: `1px solid ${borderColor}`,
         }}
       >
         <Box
@@ -60,7 +67,7 @@ const Sidebar = () => {
               fontFamily: "Inter, sans-serif",
               fontSize: "16px",
               fontWeight: 700,
-              color: "#0058be",
+              color: primaryColor,
               lineHeight: 1.2,
               whiteSpace: "nowrap",
             }}
@@ -72,7 +79,7 @@ const Sidebar = () => {
             sx={{
               fontFamily: "Inter, sans-serif",
               fontSize: "10px",
-              color: "#424754",
+              color: secondaryColor,
               mt: 0.3,
             }}
           >
@@ -80,7 +87,14 @@ const Sidebar = () => {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ px: 1.25, pt: 2.5, pb: 2 }}>
+
+      <Box
+        sx={{
+          px: 1.25,
+          pt: 2.5,
+          pb: 2,
+        }}
+      >
         <ListItemButton
           sx={{
             height: "38px",
@@ -123,39 +137,50 @@ const Sidebar = () => {
         <SidebarItem
           icon={<DashboardIcon />}
           text="Dashboard"
+          darkMode={darkMode}
         />
 
         <SidebarItem
           icon={<PointOfSaleIcon />}
           text="POS/Billing"
+          darkMode={darkMode}
         />
 
         <SidebarItem
           icon={<ShoppingBagIcon />}
           text="Products"
+          darkMode={darkMode}
         />
 
         <SidebarItem
           icon={<InventoryIcon />}
           text="Inventory"
+          darkMode={darkMode}
         />
 
         <SidebarItem
           icon={<BarChartIcon />}
           text="Sales"
+          darkMode={darkMode}
         />
 
         <SidebarItem
           icon={<PeopleIcon />}
           text="Customers"
           active
+          darkMode={darkMode}
         />
       </List>
     </Box>
   );
 };
 
-const SidebarItem = ({ icon, text, active = false }) => {
+const SidebarItem = ({
+  icon,
+  text,
+  active = false,
+  darkMode,
+}) => {
   return (
     <ListItemButton
       sx={{
@@ -165,24 +190,30 @@ const SidebarItem = ({ icon, text, active = false }) => {
         px: 1.2,
 
         backgroundColor: active
-          ? "#dce8fa"
+          ? darkMode
+            ? "#293b52"
+            : "#dce8fa"
           : "transparent",
 
-        color: active
+        color: darkMode
+          ? "#c2c6d6"
+          : active
           ? "#424754"
           : "#596174",
 
         "&:hover": {
           backgroundColor: active
-            ? "#dce8fa"
+            ? darkMode
+              ? "#293b52"
+              : "#dce8fa"
+            : darkMode
+            ? "#24282b"
             : "#f3f4f6",
         },
 
         "& .MuiListItemIcon-root": {
           minWidth: "27px",
-          color: active
-            ? "#596174"
-            : "#596174",
+          color: darkMode ? "#c2c6d6" : "#596174",
         },
 
         "& .MuiListItemText-primary": {

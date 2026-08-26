@@ -10,6 +10,7 @@ import CustomerMain from "../SpecifiedComponents/CustomerDirectory/CustomerMain"
 
 const CustomerSupoort = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const openSidebar = () => {
     setSidebarOpen(true);
@@ -17,6 +18,10 @@ const CustomerSupoort = () => {
 
   const closeSidebar = () => {
     setSidebarOpen(false);
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
   };
 
   return (
@@ -34,10 +39,11 @@ const CustomerSupoort = () => {
         height: "100vh",
         minHeight: 0,
         overflow: "hidden",
-        backgroundColor: "#f8f9fa",
+        backgroundColor: darkMode ? "#191c1d" : "#f8f9fa",
+        color: darkMode ? "#ffffff" : "#191c1d",
+        transition: "background-color 0.2s ease",
       }}
     >
-      {/* Desktop Sidebar */}
       <Box
         sx={{
           display: {
@@ -52,10 +58,9 @@ const CustomerSupoort = () => {
           overflow: "hidden",
         }}
       >
-        <Sidebar />
+        <Sidebar darkMode={darkMode} />
       </Box>
 
-      {/* Header */}
       <Box
         sx={{
           gridColumn: {
@@ -70,11 +75,12 @@ const CustomerSupoort = () => {
           display: "flex",
           alignItems: "center",
           overflow: "hidden",
-          backgroundColor: "#fff",
-          borderBottom: "1px solid #e1e3e8",
+          backgroundColor: darkMode ? "#191c1d" : "#fff",
+          borderBottom: darkMode
+            ? "1px solid #424754"
+            : "1px solid #e1e3e8",
         }}
       >
-        {/* Mobile / Tablet Menu */}
         <IconButton
           onClick={openSidebar}
           aria-label="Open navigation"
@@ -88,7 +94,7 @@ const CustomerSupoort = () => {
             height: 42,
             ml: 1,
             mr: 0.5,
-            color: "#191c1d",
+            color: darkMode ? "#ffffff" : "#191c1d",
             flexShrink: 0,
           }}
         >
@@ -103,11 +109,13 @@ const CustomerSupoort = () => {
             overflow: "hidden",
           }}
         >
-          <Header />
+          <Header
+            darkMode={darkMode}
+            onToggleDarkMode={toggleDarkMode}
+          />
         </Box>
       </Box>
 
-      {/* Customer Main */}
       <Box
         sx={{
           gridColumn: {
@@ -121,13 +129,12 @@ const CustomerSupoort = () => {
           width: "100%",
           height: "100%",
           overflow: "auto",
-          backgroundColor: "#f8f9fa",
+          backgroundColor: darkMode ? "#191c1d" : "#f8f9fa",
         }}
       >
-        <CustomerMain />
+        <CustomerMain darkMode={darkMode} />
       </Box>
 
-      {/* Mobile / Tablet Sidebar */}
       <Drawer
         anchor="left"
         open={sidebarOpen}
@@ -149,11 +156,11 @@ const CustomerSupoort = () => {
             boxSizing: "border-box",
             border: "none",
             overflow: "hidden",
-            backgroundColor: "#fff",
+            backgroundColor: darkMode ? "#191c1d" : "#fff",
           },
         }}
       >
-        <Sidebar />
+        <Sidebar darkMode={darkMode} />
       </Drawer>
     </Box>
   );

@@ -22,9 +22,7 @@ const CustomerSearch = ({
       <TextField
         fullWidth
         value={searchValue}
-        onChange={(event) =>
-          onSearchChange(event.target.value)
-        }
+        onChange={(event) => onSearchChange(event.target.value)}
         placeholder="Search by name, mobile number, or email (F3)"
         variant="standard"
         InputProps={{

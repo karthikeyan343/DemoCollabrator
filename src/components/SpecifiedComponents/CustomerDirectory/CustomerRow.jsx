@@ -1,42 +1,51 @@
-import React from "react";
-import { Avatar, Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Avatar,
+  Box,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const CustomerRow = ({ customer, columns }) => {
+const CustomerRow = ({
+  customer,
+  columns,
+  onRemove,
+  darkMode = false,
+}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const text = darkMode ? "#fff" : "#191c1d";
+  const secondary = darkMode ? "#c2c6d6" : "#424754";
+  const muted = darkMode ? "#aeb4c0" : "#727785";
+  const border = darkMode ? "#424754" : "#e1e3e8";
+
   return (
     <Box
       sx={{
-        width: "100%",
         display: "grid",
         gridTemplateColumns: columns,
         alignItems: "center",
-        minHeight: { xs: 64, sm: 68 },
-        px: { xs: 1.25, sm: 2 },
-        gap: { xs: 0.5, sm: 1 },
-        boxSizing: "border-box",
-        borderBottom: "1px solid #e1e3e8",
-        backgroundColor: customer.selected ? "#f8faff" : "#fff",
+        minHeight: 68,
+        px: 2,
+        gap: 1,
+        borderBottom: `1px solid ${border}`,
+        bgcolor: darkMode ? "#24282b" : "#fff",
         "&:hover": {
-          backgroundColor: "#f8f9fa",
+          bgcolor: darkMode ? "#2d3236" : "#f8f9fa",
         },
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: { xs: 0.75, sm: 1.25 },
-          minWidth: 0,
-        }}
-      >
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
         <Avatar
           sx={{
-            width: { xs: 30, sm: 36 },
-            height: { xs: 30, sm: 36 },
-            flexShrink: 0,
-            backgroundColor: customer.selected ? "#2170e4" : "#e7e9ed",
-            color: customer.selected ? "#fff" : "#424754",
-            fontSize: { xs: 10, sm: 11 },
+            width: 36,
+            height: 36,
+            bgcolor: darkMode ? "#424754" : "#e7e9ed",
+            color: darkMode ? "#fff" : "#424754",
+            fontSize: 11,
             fontWeight: 600,
           }}
         >
@@ -47,10 +56,9 @@ const CustomerRow = ({ customer, columns }) => {
         <Box sx={{ minWidth: 0 }}>
           <Typography
             sx={{
-              fontSize: { xs: 11, sm: 13 },
-              lineHeight: "18px",
+              fontSize: 13,
               fontWeight: 600,
-              color: "#191c1d",
+              color: text,
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -59,17 +67,7 @@ const CustomerRow = ({ customer, columns }) => {
             {customer.name}
           </Typography>
 
-          <Typography
-            sx={{
-              mt: "1px",
-              fontSize: { xs: 9, sm: 10 },
-              lineHeight: "14px",
-              color: "#727785",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
+          <Typography sx={{ fontSize: 10, color: muted }}>
             {customer.type}
           </Typography>
         </Box>
@@ -77,8 +75,8 @@ const CustomerRow = ({ customer, columns }) => {
 
       <Typography
         sx={{
-          fontSize: { xs: 10, sm: 12 },
-          color: "#424754",
+          fontSize: 12,
+          color: secondary,
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
@@ -87,21 +85,14 @@ const CustomerRow = ({ customer, columns }) => {
         {customer.mobile}
       </Typography>
 
-      <Typography
-        sx={{
-          fontSize: { xs: 10, sm: 12 },
-          fontWeight: 500,
-          color: "#191c1d",
-          whiteSpace: "nowrap",
-        }}
-      >
+      <Typography sx={{ fontSize: 12, color: text }}>
         {Number(customer.loyaltyPoints || 0).toLocaleString()}
       </Typography>
 
       <Typography
         sx={{
-          fontSize: { xs: 10, sm: 12 },
-          color: "#424754",
+          fontSize: 12,
+          color: secondary,
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
@@ -112,30 +103,39 @@ const CustomerRow = ({ customer, columns }) => {
 
       <Typography
         sx={{
-          fontSize: { xs: 10, sm: 12 },
+          fontSize: 12,
           fontWeight: 600,
-          color: "#191c1d",
+          color: text,
           textAlign: "right",
-          whiteSpace: "nowrap",
         }}
       >
         ₹{Number(customer.totalSpend || 0).toFixed(2)}
       </Typography>
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <MoreVertIcon
-          sx={{
-            fontSize: { xs: 18, sm: 20 },
-            color: "#727785",
-            cursor: "pointer",
-          }}
-        />
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <IconButton
+          size="small"
+          onClick={(event) => setAnchorEl(event.currentTarget)}
+          sx={{ color: muted }}
+        >
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
+        >
+          <MenuItem
+            onClick={() => {
+              setAnchorEl(null);
+              onRemove(customer.id);
+            }}
+            sx={{ color: "#d32f2f", fontSize: 14 }}
+          >
+            Remove
+          </MenuItem>
+        </Menu>
       </Box>
     </Box>
   );

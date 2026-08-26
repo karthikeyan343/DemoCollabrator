@@ -1,13 +1,8 @@
-import { useState } from 'react'
-import './App.css'
-import POS from './Pages/POS'
+import React from "react";
+import DOSS from "./Pages/DOSS.jsx";
 
 function App() {
-  return (
-    <>
-       <POS/>
-    </>
-  )
+  return <DOSS />;
 }
 
-export default App
+export default App;
