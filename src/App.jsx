@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import PaymentSuccessPage from './components/SpecifiedComponents/Home/Payment/PaymentSuccessPage'
 import POS from './Pages/POS'
