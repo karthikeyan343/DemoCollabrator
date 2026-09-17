@@ -12,7 +12,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-const DashboardHeader = () => {
+const DashboardHeader = ({
+  searchValue = "",
+  setSearchValue = () => {},
+}) => {
   return (
     <Box
       sx={{
@@ -33,9 +36,11 @@ const DashboardHeader = () => {
         overflow: "hidden",
       }}
     >
- <TextField
+      <TextField
         placeholder="Search products, orders..."
         size="small"
+        value={searchValue}
+        onChange={(event) => setSearchValue(event.target.value)}
         sx={{
           width: {
             xs: 150,
@@ -43,24 +48,19 @@ const DashboardHeader = () => {
             md: 300,
             lg: 400,
           },
-
           flexShrink: 1,
-
           "& .MuiOutlinedInput-root": {
             borderRadius: "30px",
             minHeight: 44,
             backgroundColor: "#FFFFFF",
           },
-
           "& .MuiOutlinedInput-root:hover fieldset": {
             borderColor: "#0058BE",
           },
-
           "& .MuiOutlinedInput-root.Mui-focused fieldset": {
             borderColor: "#0058BE",
             borderWidth: "2px",
           },
-
           "& .MuiInputBase-input": {
             fontSize: {
               xs: 12,
@@ -69,20 +69,23 @@ const DashboardHeader = () => {
             },
           },
         }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon
-                sx={{
-                  color: "#424754",
-                  fontSize: 20,
-                }}
-              />
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon
+                  sx={{
+                    color: "#424754",
+                    fontSize: 20,
+                  }}
+                />
+              </InputAdornment>
+            ),
+          },
         }}
       />
- <Box
+
+      <Box
         sx={{
           height: "100%",
           display: "flex",
@@ -94,7 +97,8 @@ const DashboardHeader = () => {
           },
           flexShrink: 0,
         }}
-      > <Box
+      >
+        <Box
           sx={{
             height: "100%",
             display: {
@@ -109,7 +113,6 @@ const DashboardHeader = () => {
             cursor: "pointer",
             transition: "all 0.2s ease",
             whiteSpace: "nowrap",
-
             "&:hover": {
               color: "#0058BE",
               fontWeight: 600,
@@ -119,6 +122,7 @@ const DashboardHeader = () => {
         >
           Open
         </Box>
+
         <Box
           sx={{
             height: "100%",
@@ -133,7 +137,6 @@ const DashboardHeader = () => {
             cursor: "pointer",
             transition: "all 0.2s ease",
             whiteSpace: "nowrap",
-
             "&:hover": {
               color: "#0058BE",
               fontWeight: 600,
@@ -142,7 +145,9 @@ const DashboardHeader = () => {
           }}
         >
           INV-2024-001
-        </Box>        <Box
+        </Box>
+
+        <Box
           sx={{
             height: "100%",
             display: {
@@ -156,7 +161,6 @@ const DashboardHeader = () => {
             cursor: "pointer",
             transition: "all 0.2s ease",
             whiteSpace: "nowrap",
-
             "&:hover": {
               color: "#0058BE",
               borderBottom: "2px solid #0058BE",
@@ -166,10 +170,9 @@ const DashboardHeader = () => {
           10:45 AM
         </Box>
 
- <IconButton
+        <IconButton
           sx={{
             color: "#424754",
-
             "&:hover": {
               color: "#0058BE",
               backgroundColor: "#E3F0FF",
@@ -179,15 +182,13 @@ const DashboardHeader = () => {
           <NotificationsIcon />
         </IconButton>
 
-      <IconButton
+        <IconButton
           sx={{
             display: {
               xs: "none",
               sm: "flex",
             },
-
             color: "#424754",
-
             "&:hover": {
               color: "#0058BE",
               backgroundColor: "#E3F0FF",
@@ -197,15 +198,13 @@ const DashboardHeader = () => {
           <SettingsIcon />
         </IconButton>
 
-    <IconButton
+        <IconButton
           sx={{
             display: {
               xs: "none",
               sm: "flex",
             },
-
             color: "#424754",
-
             "&:hover": {
               color: "#0058BE",
               backgroundColor: "#E3F0FF",
@@ -215,25 +214,19 @@ const DashboardHeader = () => {
           <LogoutIcon />
         </IconButton>
 
-      <Box
+        <Box
           sx={{
             display: {
               xs: "none",
               sm: "flex",
             },
-
             alignItems: "center",
             gap: 1,
-
             border: "1px solid #C2C6D6",
             borderRadius: "30px",
-
             padding: "4px 14px 4px 4px",
-
             cursor: "pointer",
-
             transition: "all 0.2s ease",
-
             "&:hover": {
               borderColor: "#0058BE",
               backgroundColor: "#F8FBFF",

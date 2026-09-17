@@ -47,7 +47,19 @@ const transactions = [
   },
 ];
 
-const RecentTransactions = () => {
+const RecentTransactions = ({ searchValue = "" }) => {
+  const searchText = String(searchValue || "").toLowerCase().trim();
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    return (
+      transaction.id.toLowerCase().includes(searchText) ||
+      transaction.time.toLowerCase().includes(searchText) ||
+      transaction.items.toLowerCase().includes(searchText) ||
+      transaction.payment.toLowerCase().includes(searchText) ||
+      transaction.amount.toLowerCase().includes(searchText)
+    );
+  });
+
   return (
     <Card
       variant="outlined"
@@ -121,89 +133,105 @@ const RecentTransactions = () => {
           </thead>
 
           <tbody>
-            {transactions.map((transaction) => (
-              <tr
-                key={transaction.id}
-                style={{
-                  borderTop: "1px solid #E1E3E8",
-                }}
-              >
-                <td
+            {filteredTransactions.length > 0 ? (
+              filteredTransactions.map((transaction) => (
+                <tr
+                  key={transaction.id}
                   style={{
-                    padding: "14px 16px",
-                    fontSize: "13px",
-                    color: "#0058BE",
-                    fontWeight: 600,
+                    borderTop: "1px solid #E1E3E8",
                   }}
                 >
-                  {transaction.id}
-                </td>
+                  <td
+                    style={{
+                      padding: "14px 16px",
+                      fontSize: "13px",
+                      color: "#0058BE",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {transaction.id}
+                  </td>
 
+                  <td
+                    style={{
+                      padding: "14px 16px",
+                      fontSize: "13px",
+                      color: "#424754",
+                    }}
+                  >
+                    {transaction.time}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "14px 16px",
+                      fontSize: "13px",
+                      color: "#191C1D",
+                    }}
+                  >
+                    {transaction.items}
+                  </td>
+
+                  <td style={{ padding: "14px 16px" }}>
+                    <Box
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        padding: "5px 8px",
+                        borderRadius: "6px",
+                        backgroundColor:
+                          transaction.payment === "UPI"
+                            ? "#E3F0FF"
+                            : transaction.payment === "Card"
+                              ? "#E8F7EF"
+                              : "#F1F3F5",
+                        color:
+                          transaction.payment === "UPI"
+                            ? "#0058BE"
+                            : transaction.payment === "Card"
+                              ? "#00855B"
+                              : "#424754",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        "& svg": {
+                          fontSize: "15px",
+                        },
+                      }}
+                    >
+                      {transaction.icon}
+                      {transaction.payment}
+                    </Box>
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "14px 16px",
+                      textAlign: "right",
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      color: "#191C1D",
+                    }}
+                  >
+                    {transaction.amount}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
                 <td
+                  colSpan={5}
                   style={{
-                    padding: "14px 16px",
-                    fontSize: "13px",
+                    padding: "30px",
+                    textAlign: "center",
+                    fontSize: "14px",
                     color: "#424754",
                   }}
                 >
-                  {transaction.time}
-                </td>
-
-                <td
-                  style={{
-                    padding: "14px 16px",
-                    fontSize: "13px",
-                    color: "#191C1D",
-                  }}
-                >
-                  {transaction.items}
-                </td>
-
-                <td style={{ padding: "14px 16px" }}>
-                  <Box
-                    sx={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      padding: "5px 8px",
-                      borderRadius: "6px",
-                      backgroundColor:
-                        transaction.payment === "UPI"
-                          ? "#E3F0FF"
-                          : transaction.payment === "Card"
-                            ? "#E8F7EF"
-                            : "#F1F3F5",
-                      color:
-                        transaction.payment === "UPI"
-                          ? "#0058BE"
-                          : transaction.payment === "Card"
-                            ? "#00855B"
-                            : "#424754",
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      "& svg": {
-                        fontSize: "15px",
-                      },
-                    }}
-                  >
-                    {transaction.icon}
-                    {transaction.payment}
-                  </Box>
-                </td>
-
-                <td
-                  style={{
-                    padding: "14px 16px",
-                    textAlign: "right",
-                    fontSize: "13px",
-                    fontWeight: 600,
-                    color: "#191C1D",
-                  }}
-                >
-                  {transaction.amount}
+                  No transactions found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </Box>
       </Box>

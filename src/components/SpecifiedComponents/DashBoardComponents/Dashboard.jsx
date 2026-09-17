@@ -1,5 +1,14 @@
-import React from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+} from "@mui/material";
 
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardHeader from "./DashboardHeader";
@@ -7,6 +16,8 @@ import MetricCard from "./MetricCard";
 import SalesTrends from "./SalesTrends";
 import TopSelling from "./TopSelling";
 import RecentTransactions from "./RecentTransactions";
+
+import DashboardProduct from "../../../data/DashboardProduct";
 
 import {
   PaymentsOutlined,
@@ -19,6 +30,71 @@ import {
 } from "@mui/icons-material";
 
 const Dashboard = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [products, setProducts] = useState(DashboardProduct);
+
+  const [openAddProduct, setOpenAddProduct] = useState(false);
+
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    category: "",
+    price: "",
+    stock: "",
+  });
+
+  const filteredProducts = products.filter((product) => {
+    const search = searchValue.toLowerCase().trim();
+
+    return (
+      product.name.toLowerCase().includes(search) ||
+      product.category.toLowerCase().includes(search) ||
+      product.price.toLowerCase().includes(search)
+    );
+  });
+
+  const handleAddProduct = () => {
+    if (
+      !newProduct.name.trim() ||
+      !newProduct.category.trim() ||
+      !newProduct.price.trim() ||
+      !newProduct.stock.trim()
+    ) {
+      return;
+    }
+
+    const product = {
+      id: Date.now(),
+      name: newProduct.name.trim(),
+      category: newProduct.category.trim(),
+      price: newProduct.price.trim().startsWith("₹")
+        ? newProduct.price.trim()
+        : `₹${newProduct.price.trim()}`,
+      stock: Number(newProduct.stock),
+    };
+
+    setProducts((previousProducts) => [...previousProducts, product]);
+
+    setNewProduct({
+      name: "",
+      category: "",
+      price: "",
+      stock: "",
+    });
+
+    setOpenAddProduct(false);
+  };
+
+  const handleCloseAddProduct = () => {
+    setOpenAddProduct(false);
+
+    setNewProduct({
+      name: "",
+      category: "",
+      price: "",
+      stock: "",
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -27,13 +103,13 @@ const Dashboard = () => {
         fontFamily: "Inter, sans-serif",
       }}
     >
-      {/* SIDEBAR */}
       <DashboardSidebar />
 
-      {/* HEADER */}
-      <DashboardHeader />
+      <DashboardHeader
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
 
-      {/* MAIN CONTENT */}
       <Box
         component="main"
         sx={{
@@ -43,7 +119,6 @@ const Dashboard = () => {
           boxSizing: "border-box",
         }}
       >
-        {/* PAGE HEADER */}
         <Box
           sx={{
             display: "flex",
@@ -78,7 +153,6 @@ const Dashboard = () => {
             </Box>
           </Box>
 
-          {/* ACTION BUTTONS */}
           <Box
             sx={{
               display: "flex",
@@ -90,19 +164,13 @@ const Dashboard = () => {
               sx={{
                 minHeight: "48px",
                 padding: "0 16px",
-
                 border: "1px solid #C2C6D6",
                 borderRadius: "8px",
-
                 backgroundColor: "#FFFFFF",
                 color: "#191C1D",
-
                 fontWeight: 600,
-
                 cursor: "pointer",
-
                 transition: "all 0.2s ease",
-
                 "&:hover": {
                   borderColor: "#0058BE",
                   color: "#0058BE",
@@ -115,22 +183,17 @@ const Dashboard = () => {
 
             <Box
               component="button"
+              onClick={() => setOpenAddProduct(true)}
               sx={{
                 minHeight: "48px",
                 padding: "0 16px",
-
                 border: "1px solid #C2C6D6",
                 borderRadius: "8px",
-
                 backgroundColor: "#FFFFFF",
                 color: "#191C1D",
-
                 fontWeight: 600,
-
                 cursor: "pointer",
-
                 transition: "all 0.2s ease",
-
                 "&:hover": {
                   borderColor: "#0058BE",
                   color: "#0058BE",
@@ -143,10 +206,6 @@ const Dashboard = () => {
           </Box>
         </Box>
 
-        {/* ============================= */}
-        {/* METRIC CARDS */}
-        {/* ============================= */}
-
         <Grid
           container
           spacing={2}
@@ -154,7 +213,6 @@ const Dashboard = () => {
             mb: 3,
           }}
         >
-          {/* TODAY'S SALES */}
           <Grid item xs={12} sm={6} md={3}>
             <MetricCard
               title="Today's Sales"
@@ -179,7 +237,6 @@ const Dashboard = () => {
             />
           </Grid>
 
-          {/* TOTAL TRANSACTIONS */}
           <Grid item xs={12} sm={6} md={3}>
             <MetricCard
               title="Total Transactions"
@@ -204,7 +261,6 @@ const Dashboard = () => {
             />
           </Grid>
 
-          {/* NEW CUSTOMERS */}
           <Grid item xs={12} sm={6} md={3}>
             <MetricCard
               title="New Customers"
@@ -229,7 +285,6 @@ const Dashboard = () => {
             />
           </Grid>
 
-          {/* LOW STOCK ALERTS */}
           <Grid item xs={12} sm={6} md={3}>
             <MetricCard
               title="Low Stock Alerts"
@@ -255,35 +310,134 @@ const Dashboard = () => {
           </Grid>
         </Grid>
 
-        {/* ============================= */}
-        {/* SALES + TOP SELLING */}
-        {/* ============================= */}
-
         <Box
           sx={{
             display: "grid",
-
             gridTemplateColumns: {
               xs: "1fr",
               lg: "2fr 1fr",
             },
-
             gap: 3,
-
             marginBottom: 3,
           }}
         >
           <SalesTrends />
 
-          <TopSelling />
+          <TopSelling
+            products={products}
+            filteredProducts={filteredProducts}
+            isSearching={searchValue.trim().length > 0}
+          />
         </Box>
 
-        {/* ============================= */}
-        {/* RECENT TRANSACTIONS */}
-        {/* ============================= */}
-
-        <RecentTransactions />
+        <RecentTransactions searchValue={searchValue} />
       </Box>
+
+      <Dialog
+        open={openAddProduct}
+        onClose={handleCloseAddProduct}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle
+          sx={{
+            fontWeight: 700,
+            color: "#191C1D",
+          }}
+        >
+          Add Product
+        </DialogTitle>
+
+        <DialogContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              paddingTop: "8px",
+            }}
+          >
+            <TextField
+              label="Product Name"
+              value={newProduct.name}
+              onChange={(event) =>
+                setNewProduct({
+                  ...newProduct,
+                  name: event.target.value,
+                })
+              }
+              fullWidth
+            />
+
+            <TextField
+              label="Category"
+              value={newProduct.category}
+              onChange={(event) =>
+                setNewProduct({
+                  ...newProduct,
+                  category: event.target.value,
+                })
+              }
+              fullWidth
+            />
+
+            <TextField
+              label="Price"
+              value={newProduct.price}
+              onChange={(event) =>
+                setNewProduct({
+                  ...newProduct,
+                  price: event.target.value,
+                })
+              }
+              fullWidth
+            />
+
+            <TextField
+              label="Stock"
+              type="number"
+              value={newProduct.stock}
+              onChange={(event) =>
+                setNewProduct({
+                  ...newProduct,
+                  stock: event.target.value,
+                })
+              }
+              fullWidth
+            />
+          </Box>
+        </DialogContent>
+
+        <DialogActions
+          sx={{
+            padding: "16px 24px",
+          }}
+        >
+          <Button
+            onClick={handleCloseAddProduct}
+            sx={{
+              textTransform: "none",
+              color: "#424754",
+            }}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            onClick={handleAddProduct}
+            variant="contained"
+            sx={{
+              textTransform: "none",
+              backgroundColor: "#0058BE",
+              "&:hover": {
+                backgroundColor: "#004A9F",
+              },
+            }}
+          >
+            Add Product
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

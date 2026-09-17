@@ -39,7 +39,12 @@ const products = [
   },
 ];
 
-const TopSelling = () => {
+const TopSelling = ({
+  filteredProducts = [],
+  isSearching = false,
+}) => {
+  const displayProducts = isSearching ? filteredProducts : products;
+
   return (
     <Card
       variant="outlined"
@@ -58,7 +63,6 @@ const TopSelling = () => {
           },
         }}
       >
-        {/* HEADER */}
         <Box
           sx={{
             display: "flex",
@@ -82,95 +86,119 @@ const TopSelling = () => {
           </IconButton>
         </Box>
 
-        {/* PRODUCTS */}
-        {products.map((product, index) => (
-          <Box
-            key={product.name}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "10px",
-              borderRadius: "8px",
-
-              borderBottom:
-                index !== products.length - 1
-                  ? "1px solid #E1E3E8"
-                  : "none",
-
-              "&:hover": {
-                backgroundColor: "#F8F9FA",
-              },
-            }}
-          >
-            {/* LEFT */}
+        {displayProducts.length > 0 ? (
+          displayProducts.map((product, index) => (
             <Box
+              key={product.id || product.name}
               sx={{
                 display: "flex",
+                justifyContent: "space-between",
                 alignItems: "center",
-                gap: "12px",
-                minWidth: 0,
+                padding: "10px",
+                borderRadius: "8px",
+                borderBottom:
+                  index !== displayProducts.length - 1
+                    ? "1px solid #E1E3E8"
+                    : "none",
+                "&:hover": {
+                  backgroundColor: "#F8F9FA",
+                },
               }}
             >
-              {/* ICON */}
               <Box
                 sx={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "6px",
-                  backgroundColor: "#DCEBFA",
-                  color: "#0058BE",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-
-                  "& svg": {
-                    fontSize: "21px",
-                  },
+                  gap: "12px",
+                  minWidth: 0,
                 }}
               >
-                {product.icon}
-              </Box>
-
-              {/* TEXT */}
-              <Box sx={{ minWidth: 0 }}>
-                <Typography
+                <Box
                   sx={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                    color: "#191C1D",
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "6px",
+                    backgroundColor: "#DCEBFA",
+                    color: "#0058BE",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    "& svg": {
+                      fontSize: "21px",
+                    },
                   }}
                 >
-                  {product.name}
-                </Typography>
+                  {product.icon || <CookieIcon />}
+                </Box>
 
-                <Typography
-                  sx={{
-                    fontSize: "11px",
-                    color: "#424754",
-                    marginTop: "2px",
-                  }}
-                >
-                  {product.category}
-                </Typography>
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      color: "#191C1D",
+                    }}
+                  >
+                    {product.name}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      fontSize: "11px",
+                      color: "#424754",
+                      marginTop: "2px",
+                    }}
+                  >
+                    {product.category}
+                    {product.stock !== undefined
+                      ? ` • ${product.stock} units`
+                      : ""}
+                  </Typography>
+                </Box>
               </Box>
+
+              <Typography
+                sx={{
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "#191C1D",
+                  marginLeft: "12px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {product.amount || product.price}
+              </Typography>
             </Box>
-
-            {/* AMOUNT */}
+          ))
+        ) : (
+          <Box
+            sx={{
+              padding: "30px 10px",
+              textAlign: "center",
+            }}
+          >
             <Typography
               sx={{
-                fontSize: "13px",
+                fontSize: "14px",
                 fontWeight: 600,
-                color: "#191C1D",
-                marginLeft: "12px",
-                whiteSpace: "nowrap",
+                color: "#424754",
               }}
             >
-              {product.amount}
+              No products found
+            </Typography>
+
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "#7A7F8A",
+                marginTop: "4px",
+              }}
+            >
+              Try searching for another product
             </Typography>
           </Box>
-        ))}
+        )}
       </CardContent>
     </Card>
   );

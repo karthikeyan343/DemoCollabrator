@@ -1,8 +1,25 @@
-import React from "react";
-import DOSS from "./Pages/DOSS.jsx";
+import { useState } from 'react'
+import './App.css'
+import PaymentSuccessPage from './components/SpecifiedComponents/Home/Payment/PaymentSuccessPage'
+import POS from './Pages/POS'
+import PayPage from './Pages/PayPage'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
-  return <DOSS />;
+  return (
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<POS />} />
+          <Route path="/payment" element={<PayPage />} />
+          <Route
+            path="/payment-success"
+            element={<PaymentSuccessPage />}
+          />
+        </Routes>
+      </Router>
+    </>
+  )
 }
 
-export default App;
+export default App
