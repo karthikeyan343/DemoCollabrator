@@ -1,36 +1,13 @@
-import { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-import PauseIcon from '@mui/icons-material/Pause';
-import PrintIcon from '@mui/icons-material/Print';
+import PauseIcon from "@mui/icons-material/Pause";
+import PrintIcon from "@mui/icons-material/Print";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
-const BillingCart = ({discount}) => {
-  const [Items, setItems] = useState([
-    {
-      id: 1,
-      title: "Aavin Milk 500ml",
-      price: 25,
-      PPU: 25,
-      count: 1,
-    },
-    {
-      id: 2,
-      title: "Aashirvad Aatta 5Kg",
-      price: 245,
-      PPU: 245,
-      count: 1,
-    },
-    {
-      id: 3,
-      title: "Nescafe classic 50g",
-      price: 160,
-      PPU: 160,
-      count: 1,
-    },
-  ]);
-
+const BillingCart = ({ Items, discount, setItems }) => {
+  const navigate = useNavigate();
   const handleRemove = (id) => {
     setItems((prevItem) =>
       prevItem.map((item) =>
@@ -66,11 +43,10 @@ const BillingCart = ({discount}) => {
   const subtotal = Items.reduce((sum, item) => sum + item.price, 0);
 
   const totalQuantity = Items.reduce((total, item) => total + item.count, 0);
-  const appliedDiscount = Items.length == 0?0 : discount;
+  const appliedDiscount = Items.length == 0 ? 0 : discount;
   const Total = subtotal - appliedDiscount;
 
   const handleHoldBill = () => {
-
     if (Items.length === 0) {
       alert("Cart is empty");
       return;
@@ -85,21 +61,13 @@ const BillingCart = ({discount}) => {
       totalQuantity: totalQuantity,
       date: new Date().toLocaleString(),
     };
-    const oldBills =
-      JSON.parse(localStorage.getItem("heldBills")) || [];
-    localStorage.setItem(
-      "heldBills",
-      JSON.stringify([
-        ...oldBills,
-        heldBill
-      ])
-    );
+    const oldBills = JSON.parse(localStorage.getItem("heldBills")) || [];
+    localStorage.setItem("heldBills", JSON.stringify([...oldBills, heldBill]));
     setItems([]);
     alert("Bill held successfully");
   };
 
   const handlePrint = () => {
-
     if (Items.length === 0) {
       alert("Cart is empty");
       return;
@@ -107,7 +75,6 @@ const BillingCart = ({discount}) => {
 
     window.print();
   };
-
 
   return (
     <Box
@@ -238,50 +205,61 @@ const BillingCart = ({discount}) => {
             </Typography>
           </Box>
 
-<Box
-  sx={{
-    display: "flex",
-    gap: 2,
-    width: "98%",
-    mt: 2,
-  }}
->
-  <Button
-    variant="outlined"
-    startIcon={<PauseIcon />}
-     onClick={handleHoldBill}
-    sx={{
-      flex: 1,
-      height: 45,
-      textTransform: "none",
-      fontSize: "16px",
-      fontWeight: 600,
-      ml:1,
-      color: "black",
-      borderColor: "#ccc",
-    }}
-  >
-    Hold Bill
-  </Button>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              width: "98%",
+              mt: 2,
+            }}
+          >
+            <Button
+              variant="outlined"
+              startIcon={<PauseIcon />}
+              onClick={handleHoldBill}
+              sx={{
+                flex: 1,
+                height: 45,
+                textTransform: "none",
+                fontSize: "16px",
+                fontWeight: 600,
+                ml: 1,
+                color: "black",
+                borderColor: "#ccc",
+              }}
+            >
+              Hold Bill
+            </Button>
 
-  <Button
-    variant="outlined"
-    startIcon={<PrintIcon />}
-    onClick={handlePrint}
-    sx={{
-      flex: 1,
-      height: 45,
-      textTransform: "none",
-      fontSize: "16px",
-      fontWeight: 600,
-      color: "black",
-      borderColor: "#ccc",
-    }}
-  >
-    Print
-  </Button>
-</Box>
-          <Button variant="contained" sx={{ m: 3, borderRadius: 2 }}>
+            <Button
+              variant="outlined"
+              startIcon={<PrintIcon />}
+              onClick={handlePrint}
+              sx={{
+                flex: 1,
+                height: 45,
+                textTransform: "none",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: "black",
+                borderColor: "#ccc",
+              }}
+            >
+              Print
+            </Button>
+          </Box>
+          <Button variant="contained" sx={{ m: 3, borderRadius: 2 }}
+          onClick={
+            ()=>{
+              if(Items.length == 0){ alert('cart is empty'); return}
+              navigate('/payment',{
+                state:{
+                  total:Total
+                },
+              })
+            }
+          }
+          >
             Proceed to Payment ₹{Total.toFixed(2)}
           </Button>
         </Box>

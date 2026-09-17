@@ -1,42 +1,60 @@
-import { Box } from '@mui/material'
-import SearchBar from './SearchBar'
-import CategoryTab from './CategoryTab'
-import CardDetails from '../../../data/CardDetails'
-import Carde from './Carde'
-import { useState } from 'react'
-const Main = () => {
- 
-   const [searchText, setSearchText] = useState('');
-   const [search, setSearch] = useState('');
-   const [selectCategory, setSelectCategory]=useState('All Products');
+import { Box } from "@mui/material";
+import SearchBar from "./SearchBar";
+import CategoryTab from "./CategoryTab";
+import CardDetails from "../../../data/CardDetails";
+import Carde from "./Carde";
+import { useState } from "react";
 
-   const filteredCategory = selectCategory == 'All Products'? CardDetails :
-   CardDetails.filter((card)=>card.category==selectCategory);
+const Main = ({ onAddToCart }) => {
+  const [searchText, setSearchText] = useState("");
+  const [search, setSearch] = useState("");
+  const [selectCategory, setSelectCategory] = useState("All Products");
 
-   const filteredSearch = filteredCategory.filter((card)=>
+  const filteredCategory =
+    selectCategory === "All Products"
+      ? CardDetails
+      : CardDetails.filter(
+          (card) => card.category === selectCategory
+        );
+
+  const filteredSearch = filteredCategory.filter((card) =>
     card.title.toLowerCase().includes(search.toLowerCase())
-   )
-    const handleSearch = () => {
+  );
+
+  const handleSearch = () => {
     setSearch(searchText);
   };
 
   return (
     <>
-     <SearchBar searchText={searchText} setSearchText={setSearchText} handleSearch={handleSearch}/>
-     <CategoryTab setSelectCategory={setSelectCategory}/>
-     <Box
-     sx={{
-      display:'flex',
-      flexWrap:'wrap',
-      gap:2,
-      m:2
-     }}>
-     {
-      filteredSearch.map((carde)=> <Carde key={carde.id} carde={carde}/>)
-     }
-    </Box>
-    </>
-  )
-}
+      <SearchBar
+        searchText={searchText}
+        setSearchText={setSearchText}
+        handleSearch={handleSearch}
+      />
 
-export default Main
+      <CategoryTab
+        setSelectCategory={setSelectCategory}
+      />
+
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+          m: 2,
+        }}
+      >
+        {filteredSearch.map((carde) => (
+          <Carde
+            key={carde.id}
+            carde={carde}
+            onAddToCart={onAddToCart}
+          />
+        ))}
+      </Box>
+    </>
+  );
+};
+
+export default Main;

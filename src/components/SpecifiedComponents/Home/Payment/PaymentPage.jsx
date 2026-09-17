@@ -4,11 +4,11 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-// import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
   const total = location.state?.total || 0;
   const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [amountReceived, setAmountReceived] = useState("");
@@ -22,14 +22,29 @@ const PaymentPage = () => {
     setAmountReceived("");
   };
 
-  const handleCompletePayment = () => {
-    if (paymentMethod === "Cash" && received < total) {
-      alert("Amount received is less than the amount due");
-      return;
-    }
-    alert("Payment completed successfully");
-    navigate("/");
+const handleCompletePayment = () => {
+  if (paymentMethod === "Cash" && received < total) {
+    alert("Amount received is less than the amount due");
+    return;
+  }
+
+  const paymentData = {
+    total: total,
+    paymentMethod: paymentMethod,
+    amountReceived:
+      paymentMethod === "Cash"
+        ? received
+        : total,
+    change:
+      paymentMethod === "Cash"
+        ? change
+        : 0,
   };
+
+  navigate("/payment-success", {
+    state: paymentData,
+  });
+};
   return (
     <Box sx={{backgroundColor:"#f5f6f8"}}>
       <Box

@@ -29,7 +29,6 @@ const Sidebar = () => {
         flexDirection: "column",
       }}
     >
-      {/* Logo Section */}
       <Box
         sx={{
           height: "42px",
