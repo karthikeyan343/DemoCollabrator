@@ -7,17 +7,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
   
-  return (
-    <>
+return (
+  <>
     <Router>
-          <Routes>
-              <Route path='/' element={<POS/>} />
-              <Route path='/payment' element={<PayPage/>} />
-              <Route path='/payment-success' element={ <PaymentSuccessPage/>} />
-          </Routes>
-      </Router>
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<POS />} />
+        <Route path="/payment" element={<PayPage />} />
+        <Route
+          path="/payment-success"
+          element={<PaymentSuccessPage />}
+        />
+      </Routes>
+    </Router>
+  </>
+)
 }
 
 export default App

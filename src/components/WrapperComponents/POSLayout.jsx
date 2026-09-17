@@ -60,6 +60,7 @@ const POSLayout = () => {
       >
         <Sidebar />
       </Box>
+      
       <Box
         sx={{
           gridColumn: "2 / 4",
@@ -96,6 +97,10 @@ const POSLayout = () => {
       </Box>
 
     </Box>
+
+    
+
+
   );
 };
 
