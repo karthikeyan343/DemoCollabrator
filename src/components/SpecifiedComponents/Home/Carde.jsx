@@ -4,12 +4,14 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
-const Carde = ({ carde }) => {
+const Carde = ({ carde, onAddToCart }) => {
   return (
     <Card
+      onClick={() => onAddToCart(carde)}
       sx={{
         width: 115,
         borderRadius: 2,
+        cursor: 'pointer',
       }}
     >
       <Box
@@ -17,7 +19,7 @@ const Carde = ({ carde }) => {
           position: 'relative',
           height: 105,
           backgroundColor: '#f5f5f5',
-          overflow:'hidden',
+          overflow: 'hidden',
         }}
       >
         <CardMedia
@@ -31,6 +33,7 @@ const Carde = ({ carde }) => {
             p: 0,
           }}
         />
+
         <Box
           sx={{
             position: 'absolute',
@@ -48,6 +51,7 @@ const Carde = ({ carde }) => {
           {carde.Badge}
         </Box>
       </Box>
+
       <CardContent
         sx={{
           p: 1,

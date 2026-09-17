@@ -9,4 +9,4 @@ const POS = () => {
   )
 }
 
-export default POS
+export default POS  
