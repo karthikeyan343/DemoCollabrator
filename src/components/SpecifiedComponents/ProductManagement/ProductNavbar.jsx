@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Notifications as NotificationsIcon, Settings as SettingsIcon, Logout as LogoutIcon } from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
 
-const ProductNavBar = () => {
+const ProductNavBar = ({ onNotificationClick, onSettingsClick, onLogoutClick }) => {
 
     const pages = ['Products', 'Pricing', 'Blog'];
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -37,6 +37,8 @@ const ProductNavBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    
 
     return (
         <Box sx={{ Left: '300px' }}>

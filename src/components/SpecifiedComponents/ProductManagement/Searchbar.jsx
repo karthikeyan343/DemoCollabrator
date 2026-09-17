@@ -1,23 +1,28 @@
 import {
     Typography, Box, InputBase,
-    IconButton, Button
+    IconButton, Button, Menu, MenuItem // <--- Added Menu here
 } from '@mui/material'
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import React from 'react'
-import { Search as SearchIcon, Clear as ClearIcon, FilterList as FilterListIcon, } from '@mui/icons-material'
+import { useState } from 'react';
+import { Search as SearchIcon, Clear as ClearIcon, FilterList as FilterListIcon } from '@mui/icons-material'
 
-const Searchbar = () => {
 
+const Searchbar = ({
+    searchQuery,
+    setSearchQuery,
+    selectedCategory,
+    setSelectedCategory,
+    selectedStockStatus,
+    setSelectedStockStatus,
+    onOpenAddModal,     
+    onOpenFiltersModal
+}) => {
 
-    // const [age, setAge] = React.useState('');
+    const [categoryAnchorEl, setCategoryAnchorEl] = useState(null);
+    const [statusAnchorEl, setStatusAnchorEl] = useState(null);
 
-    // const handleChange = (event) => {
-    //     setAge(event.target.value);
-    // };
-
+    const categories = ['All Categories', 'Groceries', 'Dairy', 'Bakery', 'Beverages'];
+    const stockStatuses = ['Stock Status', 'In Stock', 'Low Stock', 'Out of Stock'];
 
     return (
         <Box
@@ -34,7 +39,7 @@ const Searchbar = () => {
                 Product Management
             </Typography>
 
-            <Button variant='contained' sx={{fontFamily:'inherit', fontWeight:'650'}}>
+            <Button variant='contained' onClick={onOpenAddModal} sx={{fontFamily:'inherit', fontWeight:'650'}}>
                + Add New Product
             </Button>
 
@@ -68,8 +73,8 @@ const Searchbar = () => {
                     <SearchIcon sx={{ color: '#9ca3af', mr: 1, fontSize: '1.2rem' }} />
                     <InputBase
                         placeholder="Search by name, barcode or SKU..."
-                        // value={searchQuery}
-                        // onChange={(e) => setSearchQuery(e.target.value)}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         sx={{
                             fontSize: '0.875rem',
                             color: '#1f2937',
@@ -77,16 +82,17 @@ const Searchbar = () => {
                             '& input::placeholder': { color: '#9ca3af', opacity: 1 },
                         }}
                     />
-                    {/* {searchQuery && ( */}
+                    {searchQuery && (
                     <IconButton size="small" sx={{ p: 0.5 }}>
                         <ClearIcon sx={{ fontSize: '1rem', color: '#9ca3af' }} />
                     </IconButton>
-
+                    )}
                 </Box>
 
                 <Box sx={{ minWidth: '150px', }}>
                     <Button
                     variant="outlined"
+                    onClick={(e) => setCategoryAnchorEl(e.currentTarget)}
                     sx={{
                         borderColor: '#e5e7eb',
                         color: '#4b5563',
@@ -98,13 +104,25 @@ const Searchbar = () => {
                         borderRadius: 2,
                     }}
                 >
-                    All Categories ▾
+                    {selectedCategory} ▾
                 </Button>
+
+                <Menu anchorEl={categoryAnchorEl} open={Boolean(categoryAnchorEl)} onClose={() => setCategoryAnchorEl(null)}>
+                        {categories.map((cat) => (
+                            <MenuItem key={cat} onClick={() => { setSelectedCategory(cat); setCategoryAnchorEl(null); }}>
+                                {cat}
+                            </MenuItem>
+                        ))}
+                    </Menu>
+
                 </Box>
+
+            
 
                 <Box sx={{ minWidth: '150px', height: '10px', }}>
                     <Button
                     variant="outlined"
+                    onClick={(e) => setStatusAnchorEl(e.currentTarget)}
                     sx={{
                         borderColor: '#e5e7eb',
                         color: '#4b5563',
@@ -116,8 +134,16 @@ const Searchbar = () => {
                         borderRadius: 2,
                     }}
                 >
-                   Stock Status ▾
+                  {selectedStockStatus} ▾
                 </Button>
+
+                <Menu anchorEl={statusAnchorEl} open={Boolean(statusAnchorEl)} onClose={() => setStatusAnchorEl(null)}>
+                        {stockStatuses.map((status) => (
+                            <MenuItem key={status} onClick={() => { setSelectedStockStatus(status); setStatusAnchorEl(null); }}>
+                                {status}
+                            </MenuItem>
+                        ))}
+                    </Menu>
                     
 
                 </Box>
@@ -126,6 +152,7 @@ const Searchbar = () => {
                     <Button
                         variant="outlined"
                         startIcon={<FilterListIcon />}
+                        onClick={onOpenFiltersModal}
                         sx={{
                             borderColor: '#e5e7eb',
                             color: '#4b5563',
