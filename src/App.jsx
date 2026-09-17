@@ -12,8 +12,8 @@ function App() {
   return (
     <>
     {/* <POS/> */}
-    {/* <PM /> */}
-    <WH />
+    <PM />
+    {/* <WH /> */}
     
  
     </>

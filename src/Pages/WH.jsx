@@ -4,7 +4,7 @@ import WHLayout from '../components/WrapperComponents/WHLayout'
 const WH = () => {
   return (
     <>
-    <WHLayout />
+    <WHLayout  />
     </>
   )
 }

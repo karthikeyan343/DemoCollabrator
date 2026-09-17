@@ -17,9 +17,8 @@ const menuItems = [
   { text: 'Customers', icon: <PeopleIcon /> },
 ];
 
-const WHSidebar = ({ drawerWidth, activeTab, onTabClick, onNewSaleClick }) => {
+const WhSidebar = ({ drawerWidth, activeTab, onTabClick, onNewSaleClick }) => {
   return (
-
     <Box
       component="nav"
       sx={{
@@ -60,7 +59,7 @@ const WHSidebar = ({ drawerWidth, activeTab, onTabClick, onNewSaleClick }) => {
           const isActive = item.text === activeTab;
           return (
             <ListItem
-              button
+              button="true"
               key={item.text}
               onClick={() => onTabClick(item.text)}
               sx={{
@@ -78,8 +77,7 @@ const WHSidebar = ({ drawerWidth, activeTab, onTabClick, onNewSaleClick }) => {
         })}
       </List>
     </Box>
-   
   )
 }
 
-export default WHSidebar
+export default WhSidebar;

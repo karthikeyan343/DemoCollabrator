@@ -6,7 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 
-const WHNavbar = ({ onNotificationClick, onSettingsClick, onLogoutClick }) => {
+const WHNavbar = ({ drawerWidth, onNotificationClick, onSettingsClick, onLogoutClick }) => {
 
     return (
 
@@ -44,7 +44,7 @@ const WHNavbar = ({ onNotificationClick, onSettingsClick, onLogoutClick }) => {
                 textDecoration: 'none',
                 color: idx === 2 ? '#0058be' : '#424754',
                 fontWeight: idx === 2 ? 700 : 400,
-                borderBottom: idx === 2 ? '2px solid #0058be' : 'none',
+                // borderBottom: idx === 2 ? '2px solid #0058be' : 'none',
                 '&:hover': { color: '#0058be' },
               }}
             >
