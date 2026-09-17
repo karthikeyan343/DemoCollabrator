@@ -19,6 +19,7 @@ const Header = () => {
         alignItems: "center",
         justifyContent:'space-between',
         borderBottom: "1px solid #e0e0e0",
+     
       }}
     >
       <Box
@@ -126,7 +127,7 @@ const Header = () => {
             fontWeight: 500,
           }}
         >
-          Cashier 1
+          Cashier1
         </Typography>
       </Box>
     </Box>
